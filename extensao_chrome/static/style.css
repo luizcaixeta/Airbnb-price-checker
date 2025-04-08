@@ -1,0 +1,74 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f2f4f8;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .container {
+    background: white;
+    padding: 2rem 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  h1 {
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+  
+  .price-box {
+    background-color: #e8f5e9;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #c8e6c9;
+  }
+  
+  .price-box h2 {
+    color: #2e7d32;
+    font-size: 2rem;
+    margin: 0;
+  }
+  
+  .info {
+    text-align: left;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    color: #444;
+  }
+  
+  .tourist {
+    text-align: left;
+  }
+  
+  .tourist ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .tourist li::before {
+    content: "🎯 ";
+  }
+  
+  .btn {
+    display: inline-block;
+    background-color: #1e88e5;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+  }
+  
+  .btn:hover {
+    background-color: #1565c0;
+  }
+  

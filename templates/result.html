@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Resultado da Avaliação</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <div class="container">
+    <h1>🏠 Preço Estimado do Imóvel</h1>
+    
+    <div class="price-box">
+      <p><strong>Valor justo:</strong></p>
+      <h2>US$ {{ predicted_price }}</h2>
+    </div>
+
+    <div class="info">
+      <p><strong>Latitude:</strong> {{ latitude }}</p>
+      <p><strong>Longitude:</strong> {{ longitude }}</p>
+      <p><strong>Distância até metrô:</strong> {{ distancia_metro }} m</p>
+      <p><strong>Distância até ponto de ônibus:</strong> {{ distancia_onibus }} m</p>
+    </div>
+
+    <div class="tourist">
+      <h3>📍 Pontos turísticos próximos:</h3>
+      <ul>
+        {% for nome in pontos_turisticos %}
+          <li>{{ nome }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="footer">
+      <a href="/" class="btn">Fazer nova previsão</a>
+    </div>
+  </div>
+</body>
+</html>
