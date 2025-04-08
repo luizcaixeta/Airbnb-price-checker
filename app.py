@@ -246,6 +246,32 @@ def prever_por_url():
         banheiros = int(match_banheiros.group(1)) if match_banheiros else 1
         print(f"Quartos: {quartos}, Banheiros: {banheiros}")
 
+        match_preco = re.search(r'<span[^>]*>\s*R\$\s*([\d\.,]+)\s*</span>', r.text)
+
+        # Fallbacks: caso não ache via <span>, tenta via JSON ou outras formas
+        if not match_preco:
+            match_preco = re.search(r'R\$\s*([\d.,]+)\s*(?:total|Total|TOTAL)?', r.text)
+        if not match_preco:
+            match_preco = re.search(r'"price":\s*"([^"]+)"', r.text)
+        if not match_preco:
+            match_preco = re.search(r'totalAmount:\s*([\d.,]+)', r.text)
+        
+        preco = match_preco.group(1) if match_preco else "Não encontrado"
+        preco_limpo = preco.replace('.', '').replace(',', '.') if isinstance(preco, str) else preco
+        
+        try:
+            preco_float = float(preco_limpo)
+            preco_real = preco_float / 25.0  # Agora a divisão vai funcionar
+        except ValueError:
+            preco_real = 0.0
+        
+        print(f"Preço: {preco_real}")
+
+        match_nota = re.search(r'"rating":([\d.]+)', r.text) or re.search(r'(\d,\d+)\s*de\s*5', r.text)
+        nota = match_nota.group(1).replace(',', '.') if match_nota else "Sem avaliação"
+
+        print(f"Avaliação: {nota}")
+
         match_bairro = re.search(r'"publicAddress":"([^"]+)"', r.text)
         bairro = "Desconhecido"
         if match_bairro:
@@ -269,6 +295,7 @@ def prever_por_url():
 
         print("User data:", user_data)
 
+
         validation_errors = validate_input(user_data)
         if validation_errors:
             return jsonify({
@@ -289,8 +316,17 @@ def prever_por_url():
             return jsonify({
                 "status": "sucesso",
                 "preco_predito": predicted_price,
+                "preco_atual": preco_real,
+                "nota": nota,
+                "bairro_group": bairro_group,
                 "distancia_metro": round(distancia_metro, 1),
                 "distancia_onibus": round(distancia_onibus, 1),
+                "pontos_turisticos": [p["nome"] for p in pontos_turisticos],
+                "pontos_turisticos_coord": pontos_turisticos,
+                "distancias_turisticos": {
+                    f"distancia_{p['nome']}": round(df_processed.iloc[0][f"distancia_{p['nome']}"], 1)
+                    for p in pontos_turisticos
+                },
                 "latitude": lat,
                 "longitude": lng
             })
